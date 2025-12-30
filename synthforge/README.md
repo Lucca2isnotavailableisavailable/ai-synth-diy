@@ -1,52 +1,48 @@
-# 🎛️ SynthForge
+# 🔧 SynthForge
 
-**Modular Synthesizer Design & Prototyping Tool**
+**Component-Level Synthesizer Circuit Design & Prototyping Tool**
 
-SynthForge is a desktop application for designing, simulating, and prototyping modular synthesizers. Build your synth virtually with accurate audio simulation, then use the component values to build it in real life!
-
-![SynthForge](https://via.placeholder.com/800x450/0f0f0f/00d4aa?text=SynthForge+Screenshot)
+SynthForge lets you design synthesizer circuits from real components - resistors, capacitors, op-amps, OTAs, VCO chips, delay ICs, and more. Build circuits visually, hear them in real-time, then use the component values to build in real hardware!
 
 ## ✨ Features
 
-### 🎹 Module-Level Design
-- **Visual Patch Cables**: Connect modules with draggable cables, just like a real Eurorack system
-- **Pre-built Modules**: VCO, VCF, VCA, ADSR, LFO, Mixer, Delay, and more
-- **Eurorack Standard**: Modules sized in HP (Horizontal Pitch) matching real hardware
+### 🔌 Component-Level Design
+Build circuits from actual components:
+- **Passive**: Resistors, Capacitors, Inductors, Potentiometers
+- **Semiconductors**: Diodes, Zeners, LEDs, NPN/PNP Transistors, JFETs
+- **Op-Amps**: TL072, NE5532, LM358, Generic
+- **OTAs**: LM13700 (THE synth building block!)
+- **Comparators**: LM311, LM339
+- **ICs**: CEM3340/AS3340 VCO, SSI2164 VCA, PT2399 Delay, 555 Timer
 
-### 🔧 Component-Level View
-- **Expand Modules**: Click the "+" button to see internal circuitry
-- **Edit Component Values**: Change resistors, capacitors, and see how it affects the sound
-- **Component Library**: 900+ components including:
-  - VCO chips (CEM3340/AS3340)
-  - VCA chips (SSI2164)
-  - Filter chips (CEM3320, SSM2044)
-  - Delay chips (PT2399, BBD)
-  - Op-amps, OTAs, transistors, and more
+### 🎨 Visual Circuit Editor
+- **Drag & drop** components onto the canvas
+- **Wire** pins together by clicking and dragging
+- **Inspect** and modify component values in real-time
+- **Grid snapping** for neat layouts
 
-### 🎧 Real-Time Audio
-- **Accurate Simulation**: Component value changes affect the sound correctly
-- **Anti-aliased Oscillators**: PolyBLEP waveforms for clean sound
-- **48kHz Sample Rate**: High-quality audio output
+### 🎧 Real-Time Audio Simulation
+- Hear your circuit as you build it
+- Component value changes affect the sound correctly
+- 48kHz sample rate, low latency
 
-### 📊 Analysis Tools
-- **Oscilloscope**: Real-time waveform display with adjustable time/volt divisions
-- **Spectrum Analyzer**: See the frequency content of your signals (coming soon)
-- **Voltage Meters**: Monitor CV and audio levels
+### 📊 Built-in Oscilloscope
+- Real-time waveform display
+- Adjustable time/volt divisions
+- Multiple probe points
 
-### 💾 Project Management
-- **Save/Load Projects**: Keep your designs organized
-- **Export BOM**: Bill of Materials for purchasing components (coming soon)
+### 📋 Example Circuits Included
+- **Simple Sine Wave** - Test your setup
+- **CEM3340 VCO** - Classic synth oscillator chip
+- **LM13700 OTA VCA** - Voltage controlled amplifier
+- **PT2399 Delay** - Lo-fi digital delay
+- **Op-Amp Relaxation Oscillator** - Built from basic components
 
 ## 🚀 Quick Start
 
-### Prerequisites
-- Node.js 18+ 
-- Rust (for desktop build)
-- macOS, Windows, or Linux
-
-### Development (Web)
-
 ```bash
+cd synthforge
+
 # Install dependencies
 npm install
 
@@ -56,84 +52,126 @@ npm run dev
 # Open http://localhost:1420
 ```
 
-### Desktop Build (Tauri)
+## 🎮 How to Use
 
-```bash
-# Install Tauri CLI
-npm install -D @tauri-apps/cli
+### Adding Components
+1. Find the component in the **Component Browser** (left panel)
+2. Click on it to enter **placement mode**
+3. Click on the canvas to place it
 
-# Build desktop app
-npm run tauri:build
-```
+### Wiring
+1. Click on any pin (the small circles on components)
+2. Click on another pin to connect them
+3. Wires automatically route orthogonally
 
-## 🎮 Usage
+### Editing Values
+1. Click on a component to select it
+2. Use the **Inspector** (right panel) to adjust values
+3. Drag sliders for quick changes
 
-### Adding Modules
-1. Click on modules in the **Library** panel (left sidebar)
-2. Modules appear in the rack view
+### Playing Audio
+1. Load an example or build a circuit with:
+   - A signal source (voltage source, VCO, etc.)
+   - An **Audio Output** component connected to it
+2. Click **▶ Play** (or press Space)
+3. Hear your circuit!
 
-### Patching
-1. **Drag from an output port** (colored ring on a module)
-2. **Drop on an input port** of another module
-3. Cable connects with a nice catenary curve!
+## 📦 Component Library
 
-### Controls
-- **Knobs**: Click and drag up/down to adjust. Shift+drag for fine control.
-- **Double-click knob**: Reset to default value
+### Passive Components
+| Component | Description |
+|-----------|-------------|
+| Resistor | 1Ω - 10MΩ, limits current |
+| Capacitor | 1pF - 10mF, stores charge, filters |
+| Inductor | 1µH - 1H, stores magnetic energy |
+| Potentiometer | Variable resistor with wiper |
 
-### Keyboard Shortcuts
-- **Space**: Play/Stop audio engine
-- **Delete/Backspace**: Remove selected modules or cables
+### Semiconductors
+| Component | Description |
+|-----------|-------------|
+| Diode (1N4148) | Signal diode, ~0.6V forward drop |
+| Zener | Conducts in reverse at set voltage |
+| LED | Light emitting diode |
+| NPN (2N3904) | NPN transistor, β~150 |
+| PNP (2N3906) | PNP transistor |
+| N-JFET (2N5457) | Voltage-controlled resistor |
 
-### Viewing Components
-- Click the **+** button on any module to see its internal circuit
-- View and modify component values
-- See exactly what parts you need for real-world build
+### Op-Amps
+| Component | Description |
+|-----------|-------------|
+| TL072 | JFET input, THE synth op-amp |
+| NE5532 | Low noise, high output current |
+| LM358 | Single supply capable |
+| Generic | Configurable parameters |
 
-## 📦 Module Library
+### OTAs
+| Component | Description |
+|-----------|-------------|
+| **LM13700** | Dual OTA - VCAs, VCFs, VCOs! |
+| CA3080 | Single OTA (legacy) |
 
-| Module | Description | HP |
-|--------|-------------|-----|
-| **VCO** | Voltage Controlled Oscillator (AS3340 style) - Saw, Square, Triangle, Sine | 10 |
-| **VCF** | Multimode Filter - LP, HP, BP | 8 |
-| **VCA** | Voltage Controlled Amplifier | 6 |
-| **ADSR** | Attack-Decay-Sustain-Release Envelope | 8 |
-| **LFO** | Low Frequency Oscillator | 4 |
-| **Mixer** | 4-channel mixer | 6 |
-| **Noise** | White and Pink noise source | 4 |
-| **Delay** | PT2399-style delay | 10 |
-| **Clock** | BPM-based clock with divisions | 4 |
-| **Scope** | Built-in oscilloscope | 12 |
-| **Output** | Stereo output module | 6 |
+### ICs
+| Component | Description |
+|-----------|-------------|
+| **CEM3340/AS3340** | Precision VCO - saw, tri, pulse |
+| **SSI2164** | Quad exponential VCA |
+| **PT2399** | Digital delay, 30-340ms, lo-fi |
+| 555 Timer | Oscillator, monostable, PWM |
 
-## 🧩 Component Library
+### Sources & Probes
+| Component | Description |
+|-----------|-------------|
+| Voltage Source | DC or AC waveforms |
+| +12V / -12V Rails | Power supply |
+| Ground | 0V reference |
+| Audio Output | Connects to speakers |
+| Scope Probe | Visualization point |
 
-SynthForge includes an extensive component library for real-world builds:
+## 🔬 Circuit Simulation
 
-- **Passive**: Resistors, Capacitors, Inductors, Potentiometers
-- **Semiconductors**: Diodes, Transistors (BJT, JFET, MOSFET)
-- **Op-Amps**: TL072, NE5532, OPA2134, and more
-- **OTAs**: LM13700 (the synth workhorse!)
-- **VCO Chips**: CEM3340, AS3340, V3340
-- **VCA Chips**: SSI2164, V2164
-- **Filter Chips**: CEM3320, AS3320, SSM2044
-- **Delay Chips**: PT2399, MN3207, BBDs
-- **Logic**: CD4017, 4051, 555 timers
+SynthForge uses **behavioral models** for real-time audio:
+
+### Op-Amp Model
+- Open-loop gain (configurable)
+- Slew rate limiting
+- Rail-to-rail output limiting
+- GBW product modeling
+
+### OTA (LM13700) Model
+- `Iout = gm × (V+ - V-)` where `gm ≈ 19.2 × Iabc`
+- Linearizing diodes option
+- Tanh soft limiting on input
+
+### Transistor Models
+- Ebers-Moll simplified
+- Cutoff / Active / Saturation regions
+- Beta (current gain) configurable
+
+### VCO Chip (CEM3340) Model
+- 1V/octave exponential response
+- Saw, Triangle, Pulse outputs
+- Pulse width CV
+
+### Delay (PT2399) Model
+- Variable delay time
+- Built-in lowpass filtering
+- Lo-fi character
 
 ## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
 │              React + TypeScript UI              │
-│  (Rack View, Module Editor, Scope, Library)     │
+│  (Circuit Editor, Component Browser, Scope)     │
 ├─────────────────────────────────────────────────┤
 │              Zustand State Management           │
+│  (Circuit, Components, Wires, Selection)        │
 ├─────────────────────────────────────────────────┤
-│              Web Audio DSP Engine               │
-│  (VCO, VCF, VCA, Envelope, Effects)            │
+│           Circuit Simulator Engine              │
+│  (Behavioral Models, Node Voltage Solving)      │
 ├─────────────────────────────────────────────────┤
-│              Tauri (Desktop Shell)              │
-│  (File system, Native audio - optional)         │
+│              Web Audio API                      │
+│  (ScriptProcessor → Real-time output)           │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -141,20 +179,28 @@ SynthForge includes an extensive component library for real-world builds:
 
 ```
 synthforge/
-├── src/                    # React frontend
-│   ├── components/         # UI components
-│   │   ├── rack/          # Rack view (Module, Cable, Rack)
-│   │   ├── scope/         # Oscilloscope
-│   │   ├── library/       # Module library browser
-│   │   └── ui/            # Common UI (Knob, Port, Header)
-│   ├── stores/            # Zustand state stores
-│   ├── lib/               # Core logic
-│   │   ├── audioEngine.ts # Web Audio DSP
-│   │   ├── modules.ts     # Module definitions
-│   │   └── types.ts       # TypeScript types
-│   └── styles/            # CSS
-├── src-tauri/             # Rust desktop backend
-└── data/                  # Component/module data (planned)
+├── src/
+│   ├── lib/
+│   │   ├── circuit/
+│   │   │   ├── types.ts        # Type definitions
+│   │   │   ├── components.ts   # Component library
+│   │   │   ├── simulator.ts    # Circuit solver
+│   │   │   └── examples.ts     # Example circuits
+│   │   └── circuitAudioEngine.ts
+│   ├── components/
+│   │   ├── circuit/            # Editor UI
+│   │   │   ├── CircuitEditor.tsx
+│   │   │   ├── ComponentNode.tsx
+│   │   │   ├── CircuitWire.tsx
+│   │   │   ├── ComponentBrowser.tsx
+│   │   │   └── ComponentInspector.tsx
+│   │   ├── scope/
+│   │   └── ui/
+│   ├── stores/
+│   │   ├── circuitStore.ts     # Circuit state
+│   │   └── audioStore.ts       # Audio state
+│   └── App.tsx
+└── package.json
 ```
 
 ## 🛠️ Development
@@ -162,41 +208,41 @@ synthforge/
 ### Tech Stack
 - **Frontend**: React 18, TypeScript, Tailwind CSS v4
 - **State**: Zustand
-- **Audio**: Web Audio API (ScriptProcessor → AudioWorklet planned)
-- **Desktop**: Tauri 2.0 (Rust)
+- **Audio**: Web Audio API (ScriptProcessor)
 - **Build**: Vite
 
-### Building for Production
-
+### Building
 ```bash
-# Web only (deployable to any static host)
+# Development
+npm run dev
+
+# Production build
 npm run build
 
-# Desktop app (macOS/Windows/Linux)
-npm run tauri:build
+# Preview production
+npm run preview
 ```
 
 ## 🗺️ Roadmap
 
-- [x] Core module library (VCO, VCF, VCA, ADSR, LFO)
-- [x] Visual patch cable system
-- [x] Real-time audio engine
+- [x] Component library (R, C, op-amps, OTAs, ICs)
+- [x] Circuit editor with visual wiring
+- [x] Real-time audio simulation
 - [x] Oscilloscope display
-- [x] Save/Load projects
-- [ ] Spectrum analyzer
-- [ ] Component-level node editor
+- [x] Example circuits
+- [ ] More IC models (CD4017, CD4051, etc.)
+- [ ] Subcircuit/module creation
 - [ ] BOM export for purchasing
-- [ ] More modules (Sequencer, Quantizer, S&H)
-- [ ] MIDI input support
-- [ ] AudioWorklet for better performance
-- [ ] Module creation wizard
+- [ ] SPICE netlist export
+- [ ] Schematic view mode
+- [ ] More filter topologies
 
 ## 📄 License
 
-MIT License - Feel free to use, modify, and distribute!
+MIT License - Build synths, make noise!
 
 ## 🙏 Acknowledgments
 
-- Inspired by VCV Rack, Reaktor, and the DIY synth community
 - Curtis/Alfa/Coolaudio for keeping synth chips alive
-- The Eurorack standard for modular design
+- The DIY synth community
+- Princeton Technology for the PT2399

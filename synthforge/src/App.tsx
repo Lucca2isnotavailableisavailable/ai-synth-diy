@@ -1,26 +1,25 @@
 import { useEffect } from 'react';
-import { Rack } from './components/rack/Rack';
-import { Library } from './components/library/Library';
+import { CircuitEditor } from './components/circuit/CircuitEditor';
+import { ComponentBrowser } from './components/circuit/ComponentBrowser';
+import { ComponentInspector } from './components/circuit/ComponentInspector';
 import { Oscilloscope } from './components/scope/Oscilloscope';
-import { Header } from './components/ui/Header';
-import { useProjectStore } from './stores/projectStore';
+import { CircuitHeader } from './components/ui/CircuitHeader';
+import { useCircuitStore } from './stores/circuitStore';
 import { useAudioStore } from './stores/audioStore';
-import { useUIStore } from './stores/uiStore';
-import { audioEngine } from './lib/audioEngine';
+import { circuitAudioEngine } from './lib/circuitAudioEngine';
 
 function App() {
-  const { modules, cables } = useProjectStore();
-  const { isRunning, initialize, scopeData, setScopeData } = useAudioStore();
-  const { visiblePanels } = useUIStore();
+  const { circuit, isRunning } = useCircuitStore();
+  const { scopeData, setScopeData, initialize } = useAudioStore();
 
   // Initialize audio on mount
   useEffect(() => {
     const init = async () => {
-      await audioEngine.initialize();
+      await circuitAudioEngine.initialize();
       await initialize();
       
       // Set up scope callback
-      audioEngine.setScopeCallback((data) => {
+      circuitAudioEngine.setScopeCallback((data) => {
         setScopeData(data);
       });
     };
@@ -28,10 +27,21 @@ function App() {
     init();
   }, [initialize, setScopeData]);
 
-  // Update audio engine when patch changes
+  // Update audio engine when circuit changes
   useEffect(() => {
-    audioEngine.updatePatch(modules, cables);
-  }, [modules, cables]);
+    if (circuit) {
+      circuitAudioEngine.setCircuit(circuit);
+    }
+  }, [circuit]);
+
+  // Handle play/stop
+  useEffect(() => {
+    if (isRunning) {
+      circuitAudioEngine.start();
+    } else {
+      circuitAudioEngine.stop();
+    }
+  }, [isRunning]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -40,19 +50,10 @@ function App() {
       if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
         if (isRunning) {
-          audioEngine.stop();
-          useAudioStore.setState({ isRunning: false });
+          useCircuitStore.getState().stopSimulation();
         } else {
-          audioEngine.start();
-          useAudioStore.setState({ isRunning: true });
+          useCircuitStore.getState().startSimulation();
         }
-      }
-      
-      // Delete selected
-      if ((e.code === 'Delete' || e.code === 'Backspace') && e.target === document.body) {
-        const { selectedModuleIds, selectedCableIds, removeModule, removeCable } = useProjectStore.getState();
-        selectedModuleIds.forEach(id => removeModule(id));
-        selectedCableIds.forEach(id => removeCable(id));
       }
     };
 
@@ -63,30 +64,31 @@ function App() {
   return (
     <div className="h-screen w-screen flex flex-col bg-bg-primary overflow-hidden">
       {/* Header */}
-      <Header />
+      <CircuitHeader />
       
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Library Panel */}
-        {visiblePanels.includes('library') && (
-          <div className="w-64 border-r border-gray-800 overflow-hidden flex flex-col">
-            <Library />
-          </div>
-        )}
+        {/* Component Browser (Left) */}
+        <div className="w-64 border-r border-gray-800 overflow-hidden flex flex-col">
+          <ComponentBrowser />
+        </div>
         
-        {/* Rack Area */}
+        {/* Circuit Editor (Center) */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Rack View */}
+          {/* Editor Area */}
           <div className="flex-1 overflow-hidden">
-            <Rack />
+            <CircuitEditor />
           </div>
           
-          {/* Scope Panel */}
-          {visiblePanels.includes('scope') && (
-            <div className="h-64 border-t border-gray-800">
-              <Oscilloscope data={scopeData} />
-            </div>
-          )}
+          {/* Scope (Bottom) */}
+          <div className="h-56 border-t border-gray-800">
+            <Oscilloscope data={scopeData} />
+          </div>
+        </div>
+        
+        {/* Inspector (Right) */}
+        <div className="w-72 border-l border-gray-800 overflow-hidden">
+          <ComponentInspector />
         </div>
       </div>
     </div>
