@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* Custom color variables */
+:root {
+  --color-bg-primary: #0f0f0f;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #252525;
+  
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #888888;
+  --color-text-muted: #555555;
+  
+  --color-accent-primary: #00d4aa;
+  --color-accent-secondary: #0099ff;
+  --color-accent-warning: #ffaa00;
+  --color-accent-error: #ff4444;
+  
+  --color-signal-audio: #00d4aa;
+  --color-signal-cv: #ffaa00;
+  --color-signal-gate: #ff6b6b;
+  --color-signal-clock: #9966ff;
+}
+
+/* Custom utility classes */
+.bg-bg-primary { background-color: var(--color-bg-primary); }
+.bg-bg-secondary { background-color: var(--color-bg-secondary); }
+.bg-bg-tertiary { background-color: var(--color-bg-tertiary); }
+
+.text-text-primary { color: var(--color-text-primary); }
+.text-text-secondary { color: var(--color-text-secondary); }
+.text-text-muted { color: var(--color-text-muted); }
+
+.text-accent-primary { color: var(--color-accent-primary); }
+.text-accent-secondary { color: var(--color-accent-secondary); }
+.text-accent-warning { color: var(--color-accent-warning); }
+.text-accent-error { color: var(--color-accent-error); }
+
+.bg-accent-primary { background-color: var(--color-accent-primary); }
+.bg-accent-secondary { background-color: var(--color-accent-secondary); }
+.bg-accent-warning { background-color: var(--color-accent-warning); }
+.bg-accent-error { background-color: var(--color-accent-error); }
+
+.border-accent-primary { border-color: var(--color-accent-primary); }
+
+.ring-accent-primary { --tw-ring-color: var(--color-accent-primary); }
+.ring-offset-bg-primary { --tw-ring-offset-color: var(--color-bg-primary); }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* React Flow customization */
+.react-flow__node {
+  font-size: 12px;
+}
+
+.react-flow__edge-path {
+  stroke-width: 3;
+}
+
+/* Knob styling */
+.knob {
+  cursor: grab;
+  user-select: none;
+}
+
+.knob:active {
+  cursor: grabbing;
+}
+
+/* Port styling */
+.port {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #444;
+  background: #222;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.port:hover {
+  border-color: #00d4aa;
+  box-shadow: 0 0 8px rgba(0, 212, 170, 0.5);
+}
+
+.port.audio {
+  border-color: #00d4aa;
+}
+
+.port.cv {
+  border-color: #ffaa00;
+}
+
+.port.gate {
+  border-color: #ff6b6b;
+}
+
+.port.connected {
+  background: currentColor;
+}
+
+/* Module panel styling */
+.module-panel {
+  background: linear-gradient(180deg, #2a2a2a 0%, #1f1f1f 100%);
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+/* Cable animation */
+@keyframes cable-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+.cable-active {
+  animation: cable-pulse 2s ease-in-out infinite;
+}
